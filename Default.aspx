@@ -1,187 +1,75 @@
 ﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="TODOProject._Default" %>
-
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    <style>#container{
-  width: 300px;
-  display: block;
-  margin: auto;
-}
+    
 
-p {
-  float: right;
-}
-
-#list{
-  list-style: none;
-}
-
-#list li{
-  margin: 10px;
-  cursor: pointer;
-}</style>
-
-  <div id="main">
-      <noscript>This site just doesn't work, period, without JavaScript</noscript>
-      <h1 id="isRight"></h1>
-      <ul id="list" class="ui-sortable">
-
-        <li color="1" class="colorBlue draggertab" rel="1" id="2" >
-          <span id="2listitem" title="Double-click to edit..." style="opacity: 1;">Work
-          List</span>
-
-          <div class="draggertab tab"></div>
-
-          <div class="colortab tab"></div>
-
-          <div class="deletetab tab" style="width: 44px; display: block; right: -64px;">
-          </div>
-
-          <div class="donetab tab"></div>
-        </li>
-
-        <li color="4" class="colorGreen draggertab" rel="2" id="4">
-          <span id="4listitem" title="Double-click to edit..." style=
-          "opacity: 0.5;">Saibaan List<img src="/images/crossout.png" class="crossout"
-          style="width: 100%; display: block;" /></span>
-
-          <div class="draggertab tab"></div>
-
-          <div class="colortab tab"></div>
-
-          <div class="deletetab tab"></div>
-
-          <div class="donetab tab"></div>
-        </li>
-
-        <li color="1" class="colorBlue draggertab" rel="3" id="6">
-          <span id="6listitem" title="Double-click to edit...">adfas</span>
-
-          <div class="draggertab tab"></div>
-
-          <div class="colortab tab"></div>
-
-          <div class="deletetab tab"></div>
-
-          <div class="donetab tab"></div>
-        </li>
-
-        <li color="1" class="colorBlue" rel="4" id="7">
-          <span id="7listitem" title="Double-click to edit...">adfa</span>
-
-          <div class="draggertab tab"></div>
-
-          <div class="colortab tab"></div>
-
-          <div class="deletetab tab"></div>
-
-          <div class="donetab tab"></div>
-        </li>
-
-        <li color="1" class="colorBlue" rel="5" id="8">
-          <span id="8listitem" title="Double-click to edit...">asdfas</span>
-
-          <div class="draggertab tab"></div>
-
-          <div class="colortab tab"></div>
-
-          <div class="deletetab tab"></div>
-
-          <div class="donetab tab"></div>
-        </li>
-
-        <li color="1" class="colorBlue" rel="6" id="9">
-          <span id="9listitem" title="Double-click to edit...">fasdfasdf</span>
-
-          <div class="draggertab tab"></div>
-
-          <div class="colortab tab"></div>
-
-          <div class="deletetab tab"></div>
-
-          <div class="donetab tab"></div>
-        </li>
-
-        <li color="3" class="colorRed" rel="7" id="10">
-          <span id="10listitem" title="Double-click to edit...">asdasfaf</span>
-
-          <div class="draggertab tab"></div>
-
-          <div class="colortab tab"></div>
-
-          <div class="deletetab tab"></div>
-
-          <div class="donetab tab"></div>
-        </li>
-      </ul>
-	  <br />
-
-      
-        <input type="text" id="new-list-item-text" name="new-list-item-text" />
-        <input type="submit" id="add-new-submit" value="Add" class="button" />
      
 
-      <div class="clear"></div>
-    </div>
+    <!-- Main -->
+      <div id="main">
+                <noscript>This site just doesn't work, period, without JavaScript</noscript>
+                <asp:HiddenField ID="hfEditID" runat="server" />
+                <asp:TextBox ID="hfSelectedColor" runat="server" Visible="false"></asp:TextBox>
+                <ul id="list" class="ui-sortable drag_drop_grid">
+                    <asp:Repeater ID="rptList" runat="server" OnItemCommand="rptList_ItemCommand">
+                        <ItemTemplate>
+                            <li color="1" class="colorBlue" rel="1" id='<%# Eval("ID") %>' data-value='<%# Eval("TaskOrder") %>'>
+                                <span 
+                                    id="2listitem" 
+                                    title="Double-click to edit..." 
+                                    style='<%# "opacity: 1; background-color: " + DataBinder.Eval(Container.DataItem, "TaskColor") + ";" %>'>
+                                    <%# Eval("TaskName") %>
+                                </span>
 
-   <script>
-       var list = document.getElementById('list')
-       var base, randomized, dragging, draggedOver;
-       var isRight = 'Not In Order!';
+                                <div class="draggertab tab"></div>
 
-       const genRandom = (array) => {
-           base = array.slice()
-           randomized = array.sort(() => Math.random() - 0.5)
-           if (randomized.join("") !== base.join("")) {
-               renderItems(randomized)
-           } else {
-               //recursion to account if the randomization returns the original array
-               genRandom()
-           }
-       }
+                               
 
-       const renderItems = (data) => {
-           document.getElementById('isRight').innerText = isRight
-           list.innerText = ''
-           data.forEach(item => {
-               var node = document.createElement("li");
-               node.draggable = true
-               node.style.backgroundColor = item
-               node.style.backgroundColor = node.style.backgroundColor.length > 0
-                   ? item : 'lightblue'
-               node.addEventListener('drag', setDragging)
-               node.addEventListener('dragover', setDraggedOver)
-               node.addEventListener('drop', compare)
-               node.innerText = item
-               list.appendChild(node)
-           })
-       }
+                                <asp:TextBox
+                                    ID="txtCardColor" 
+                                    runat="server" 
+                                    class="colortab tab cardColor" 
+                                    style="border: none; height: 10px !important; position: absolute; left: 34px; width: 20px; background-position: -31px 0; cursor: pointer;"                       
+                                    AutoPostBack="true"
+                                    OnTextChanged="txtCardColor_TextChanged"
+                                    />
+                                
+                               <cc1:ColorPickerExtender
+                                    ID="txtCardColor_ColorPickerExtender"
+                                    TargetControlID="txtCardColor"
+                                    Enabled="True"
+                                    runat="server"></cc1:ColorPickerExtender>
 
-       const compare = (e) => {
-           var index1 = randomized.indexOf(dragging);
-           var index2 = randomized.indexOf(draggedOver);
-           randomized.splice(index1, 1)
-           randomized.splice(index2, 0, dragging)
-           
-               
-           isRight='dragging from: ' + index1 + 'dragout ' +index2)=;
-
-           renderItems(randomized)
-       };
+                                <div id="btnDelete" class="deletetab tab"></div>
 
 
-       const setDraggedOver = (e) => {
-           e.preventDefault();
-           draggedOver = Number.isNaN(parseInt(e.target.innerText)) ? e.target.innerText : parseInt(e.target.innerText)
-           
-       }
 
-       const setDragging = (e) => {
-           dragging = Number.isNaN(parseInt(e.target.innerText)) ? e.target.innerText : parseInt(e.target.innerText)
-       }
+                                
+                                <div class="tab" id="btnCancelDelete" style="position: absolute; background-position: -82px 0; cursor: pointer; width: 44px; display: none; right: -64px;"></div>
+                                <asp:linkbutton ID="lnkConfirmDelete" commandname="Confirm" runat="server" text="Update"  CommandArgument='<%# Eval("ID") %>'>
+                                    <div class="donetab tab" style="display: none;"></div>
+                                </asp:linkbutton>
+                                                                
+                            </li>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </ul>
+                <br />
+                
+                <div id="divNotification" runat="server"></div>
+                <div id="add-new">
+                    <asp:TextBox ID="txtTaskName" runat="server" style="width: 532px; float: left; margin: 0 10px 0 69px;"></asp:TextBox>
+                    <asp:HiddenField ID="hfIsDone" runat="server" />
+                    <asp:LinkButton ID="lnkSave" runat="server" CssClass="button" style="padding: 10px 12px;" OnClick="lnkSave_Click">Add</asp:LinkButton>
+                    <asp:LinkButton ID="lnkUpdate" runat="server" CssClass="button" style="padding: 10px 12px;" OnClick="lnkUpdate_Click">Update</asp:LinkButton>
+                    <asp:LinkButton ID="lnkCancelEdit" runat="server" CssClass="button" style="padding: 10px 12px;" OnClick="lnkCancelEdit_Click">Cacnel</asp:LinkButton>
+                </div>
 
-       // genRandom([0, 1, 2, 3, 4, 5, 6])
-       genRandom(['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'])
-   </script>
+                <div class="clear"></div>
+            </div>
+    <!-- END -->
+   
+  
 </asp:Content>
 
 

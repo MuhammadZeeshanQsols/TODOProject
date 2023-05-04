@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace TODOProject.Modal
+﻿using System.Data;
+namespace TODOProject.EventArgs
 {
-    public class TaskModal
+    public class TaskEventArgs : System.EventArgs
     {
         public int ID { get; set; }
         public string TaskName { get; set; }
@@ -13,6 +9,7 @@ namespace TODOProject.Modal
         public bool IsDeleted { get; set; }
         public bool Ispending { get; set; }
         public string TaskColor { get; set; }
-
+        public int query { get; set; }
+        public DataTable TodoList { get; set; }
     }
 }

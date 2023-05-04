@@ -17,7 +17,7 @@ namespace TODOProject
 
         protected string SwitchUrl { get; private set; }
 
-        protected void Page_Load(object sender, EventArgs e)
+        protected void Page_Load(object sender, System.EventArgs e)
         {
             // Determine current view
             var isMobile = WebFormsFriendlyUrlResolver.IsMobileView(new HttpContextWrapper(Context));

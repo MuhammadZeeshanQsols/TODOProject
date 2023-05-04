@@ -1,17 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TODOProject.Modal;
+using TODOProject.EventArgs;
+using TODOProject.Presentation;
 
 namespace TODOProject.View
 {
-   public interface ITaskView : IView<TaskModal>
+    public interface ITaskView 
     {
-        List<TaskModal> Customers { get; set; }
-        event EventHandler<TaskEventArgs> CustomerCreated;
-        event EventHandler<TaskEventArgs> CustomerUpdated;
-        event EventHandler<TaskEventArgs> CustomerDeleted;
+       
+
+        void AttachPresenter(TaskPresenter taskPresenter);
+        event EventHandler<TaskEventArgs> LoadHandler;
+        event EventHandler<TaskEventArgs> SaveHandler;
+        //event EventHandler<TaskEventArgs> ChangeOrder;
+        event EventHandler<TaskEventArgs> DeleteHandler;
+        event EventHandler<TaskEventArgs> ChangeTaskNameHandler;
+        event EventHandler<TaskEventArgs> ChangeTaskColorHandler;
     }
 }

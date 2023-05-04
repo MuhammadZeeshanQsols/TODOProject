@@ -6,13 +6,40 @@
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> - My ASP.NET Application</title>
+    <title><%: Page.Title %> - My ASP.NET Application</title><a href="EventArgs/">EventArgs/</a>
 
      <link rel="stylesheet" href="Content/style.css" type="text/css" />
 
    
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <link rel="Stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/themes/redmond/jquery-ui.css" />
+    <script src="Scripts/sortable-jquery-ui-1.12.1.custom/external/jquery/jquery.js"></script>
+    <script src="Scripts/sortable-jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+    <style>
+                .buttonPDNG {
+            padding: 10px 12px;
+        }
 
+        .lblPadding {
+            padding: 10px;
+        }
+
+        li:nth-child(3) {
+   color: red;
+}
+
+        #gvListITem td:nth-child(1)  {
+            width: 10%;
+        }
+        #gvListITem td:nth-child(4)  {
+            width: 15%;
+        }
+       
+
+    </style>
+      
+    <script src="Scripts/Task.js"></script>
 </head>
 <body>
    
@@ -24,7 +51,8 @@
       <h1>TO DO Task </h1>
     </div>
         <div class="container body-content">
-             <form runat="server"><asp:ScriptManager runat="server">
+             <form runat="server">
+                 <asp:ScriptManager runat="server">
             <Scripts>
                 <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
                 <%--Framework Scripts--%>
@@ -42,6 +70,7 @@
                 <asp:ScriptReference Name="WebFormsBundle" />
                 <%--Site Scripts--%>
             </Scripts>
+                   
         </asp:ScriptManager>
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder></form>
