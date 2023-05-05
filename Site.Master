@@ -8,14 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%: Page.Title %> - My ASP.NET Application</title><a href="EventArgs/">EventArgs/</a>
 
-     <link rel="stylesheet" href="Content/style.css" type="text/css" />
-
-   
+     
+    <link href="Content/style.css" rel="stylesheet" />
+   <script src="Scripts/jquery-3.4.1.min.js"></script>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <link rel="Stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/themes/redmond/jquery-ui.css" />
-    <script src="Scripts/sortable-jquery-ui-1.12.1.custom/external/jquery/jquery.js"></script>
-    <script src="Scripts/sortable-jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+ 
     <style>
                 .buttonPDNG {
             padding: 10px 12px;
@@ -39,7 +38,7 @@
 
     </style>
       
-    <script src="Scripts/Task.js"></script>
+   
 </head>
 <body>
    
@@ -67,6 +66,7 @@
                 <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
                 <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
                 <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                 
                 <asp:ScriptReference Name="WebFormsBundle" />
                 <%--Site Scripts--%>
             </Scripts>

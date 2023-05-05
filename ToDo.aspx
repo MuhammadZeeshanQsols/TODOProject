@@ -1,14 +1,55 @@
-﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="TODOProject._Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ToDo.aspx.cs" Inherits="TODOProject.ToDo" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
-<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    
+<!DOCTYPE html>
 
-        <script src="Scripts/sortable-jquery-ui-1.12.1.custom/external/jquery/jquery.js"></script>
-    <script src="Scripts/sortable-jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    <link rel="icon" href="images/ToDoList.ico" type="image/gif" />
+     <title>Todo List</title>
+    <link rel="stylesheet" href="Content/style.css" type="text/css" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <link rel="Stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10/themes/redmond/jquery-ui.css" />
+    <script src="Scripts/jquery-3.4.1.min.js"></script>
     
-     <script src="Scripts/Task.js"></script>
-    <!-- Main -->
-      <div id="main">
+    <script src="Scripts/sortable-jquery-ui-1.12.1.custom/external/jquery/jquery.js"></script>
+    <script src="Scripts/sortable-jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+
+
+    
+     <style>
+                .buttonPDNG {
+            padding: 10px 12px;
+        }
+
+        .lblPadding {
+            padding: 10px;
+        }
+
+        li:nth-child(3) {
+   color: red;
+}
+
+        #gvListITem td:nth-child(1)  {
+            width: 10%;
+        }
+        #gvListITem td:nth-child(4)  {
+            width: 15%;
+        }
+       
+
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <div id="page-wrap">
+            <div id="header">
+                <h1><a href="">PHP Sample Test App</a></h1>
+            </div>
+
+            <div id="main">
                 <noscript>This site just doesn't work, period, without JavaScript</noscript>
                 <asp:HiddenField ID="hfEditID" runat="server" />
                 <asp:TextBox ID="hfSelectedColor" runat="server" Visible="false"></asp:TextBox>
@@ -25,7 +66,7 @@
 
                                 <div class="draggertab tab"></div>
 
-                               
+                                <%--<div id="colorPicker" class="colortab tab"></div>--%>
 
                                 <asp:TextBox
                                     ID="txtCardColor" 
@@ -34,13 +75,14 @@
                                     style="border: none; height: 10px !important; position: absolute; left: 34px; width: 20px; background-position: -31px 0; cursor: pointer;"                       
                                     AutoPostBack="true"
                                     OnTextChanged="txtCardColor_TextChanged"
+                                  
+                                    
                                     />
-                                
-                               <cc1:ColorPickerExtender
+                                <cc1:ColorPickerExtender
                                     ID="txtCardColor_ColorPickerExtender"
                                     TargetControlID="txtCardColor"
                                     Enabled="True"
-                                    runat="server"></cc1:ColorPickerExtender>
+                                    runat="server" ></cc1:ColorPickerExtender>
 
                                 <div id="btnDelete" class="deletetab tab"></div>
 
@@ -69,12 +111,9 @@
 
                 <div class="clear"></div>
             </div>
-    <!-- END -->
+        </div>
+    </form>
+    <script src="Scripts/Task.js"></script>
    
- 
-</asp:Content>
-
-
-
-
-
+</body>
+</html>

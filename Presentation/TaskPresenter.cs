@@ -13,10 +13,10 @@ namespace TODOProject.Presentation
            
             _taskView.LoadHandler += _taskView_LoadHandler;
             _taskView.SaveHandler += _taskView_SaveHandler;
-        
             _taskView.ChangeTaskNameHandler += _taskView_ChangeTaskNameHandler;
             _taskView.DeleteHandler += _taskView_DeleteHandler;
             _taskView.ChangeTaskColorHandler += _taskView_ChangeTaskColorHandler;
+            
           
         }
 

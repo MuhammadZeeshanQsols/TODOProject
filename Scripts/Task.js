@@ -21,8 +21,9 @@ $(document).ready(function () {
     $ListItem.dblclick(function () {
         try {
             var ItemID = $(this).parent().attr('id');
-            var Description = $(this).text().trim();
-            $("#txtTaskName").val(Description);
+            var TaskName = $(this).text().trim();
+        
+            $("#txtTaskName").val(TaskName);
             $("#hfEditID").val(ItemID);
             $("#lnkSave").hide();
 
@@ -41,25 +42,47 @@ function UpdatePosition(ui) {
     try {
         var $ListItem = $('#list').find('li');
         $ListItem.each(function (index) {
-            console.log(index + ": " + $(this).text().trim());
-
+            var $currentItem = $(this);
+            var TaskID = $currentItem.attr("id");
             $.ajax({
                 type: 'POST',
-                url: 'ListMVP.aspx/UpdatePosition',
-                data: "{ItemID:" + $(this).context.attributes["id"].value + ", Position:" + index + "}",
-                dataType: 'json',
+                url: 'ToDo.aspx/UpdatePosition',
+                data: JSON.stringify({ TaskID: TaskID, TaskOrder: index }),
                 contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
                 success: function (response) {
-                    console.log("Position updated: " + index + ": " + $(this).text().trim());
+                    console.log("Position updated: " + index + ": " + $currentItem.text().trim());
                 },
                 error: function (response) {
-                    var ex = jQuery.parseJSON(response.responseText);
-                    alert("Error updating position, due to: " + ex.Message);
+                    console.log(response.responseText);
+                    alert("Error updating position, due to: " + response.responseText);
                 }
             });
         });
+
+        //var $ListItem = $('#list').find('li');
+        //$ListItem.each(function (index) {
+        //   // console.log(index + ": " + $(this).text().trim() + ' itemid: ' + $(this).context.attributes["id"].value +' Position: '+index);
+        //    var TaskID = $(this).context.attributes["id"].value;
+        //    $.ajax({
+        //        type: 'POST',
+        //        url: 'ToDo.aspx/UpdatePosition',
+        //        data: "{TaskID:" + TaskID + ", TaskOrder:" + index + "}",
+        //        dataType: 'json',
+        //        contentType: 'application/json; charset=utf-8',
+        //        success: function (response) {
+        //            console.log("Position updated: " + index + ": " + $(this).text().trim());
+        //        },
+        //        error: function (response) {
+        //          //  var ex = jQuery.parseJSON(response.responseText);
+        //            console.log(response.responseText);
+        //            alert("Error updating position, due to: " + response.responseText);
+        //        }
+        //    });
+        //});
     } catch (ex) {
-        alert("Error updating position, due to: " + ex.message);
+     //   alert("Error updating position, due to: " + ex.message);
+        console.log(ex.message);
     }
 }
 //#endregion

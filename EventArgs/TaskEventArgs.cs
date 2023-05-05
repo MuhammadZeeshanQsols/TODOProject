@@ -11,5 +11,13 @@ namespace TODOProject.EventArgs
         public string TaskColor { get; set; }
         public int query { get; set; }
         public DataTable TodoList { get; set; }
+        public  enum ExceptionType
+        {
+            SqlException = 1,
+            ArgumentExceptions = 2,
+            Exception = 3,
+            
+        }
     }
+   
 }

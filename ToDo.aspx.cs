@@ -10,7 +10,7 @@ using TODOProject.View;
 
 namespace TODOProject
 {
-    public partial class _Default : Page, ITaskView
+    public partial class ToDo : System.Web.UI.Page, ITaskView
     {
         public event EventHandler<TaskEventArgs> LoadHandler;
         public event EventHandler<TaskEventArgs> SaveHandler;
@@ -18,7 +18,7 @@ namespace TODOProject
         public event EventHandler<TaskEventArgs> ChangeTaskNameHandler;
         public event EventHandler<TaskEventArgs> ChangeTaskColorHandler;
 
-        private  TaskPresenter _taskPresenter;
+        private TaskPresenter _taskPresenter;
         public void AttachPresenter(TaskPresenter taskPresenter)
         {
             if (taskPresenter == null)
@@ -27,20 +27,21 @@ namespace TODOProject
             }
             this._taskPresenter = taskPresenter;
         }
-        
+
         protected void Page_Load(object sender, System.EventArgs e)
         {
             TaskPresenter taskPresenter = new TaskPresenter(this);
             AttachPresenter(taskPresenter);
             if (!IsPostBack)
-            { 
-                BindData();
+            {
+                LoadRepeater();
                 lnkUpdate.Style.Add("display", "none");
                 lnkCancelEdit.Style.Add("display", "none");
             }
 
         }
-        public void BindData()
+       
+        public  void LoadRepeater()
         {
             string exp = string.Empty;
             try
@@ -54,15 +55,14 @@ namespace TODOProject
                 }
             }
             catch (MySqlException exception)
-            { exp=GenrcModel.Exceptiontype(TaskEventArgs.ExceptionType.SqlException, exception); }
+            { exp = GenrcModel.Exceptiontype(TaskEventArgs.ExceptionType.SqlException, exception); }
             catch (ArgumentException exception)
-            { exp = GenrcModel.Exceptiontype(TaskEventArgs.ExceptionType.ArgumentExceptions,exception); }
+            { exp = GenrcModel.Exceptiontype(TaskEventArgs.ExceptionType.ArgumentExceptions, exception); }
             catch (Exception exception)
-            { exp = GenrcModel.Exceptiontype(TaskEventArgs.ExceptionType.Exception, exception);}
+            { exp = GenrcModel.Exceptiontype(TaskEventArgs.ExceptionType.Exception, exception); }
             notification("Error", exp);
         }
 
-       
 
         #region Events
 
@@ -83,10 +83,10 @@ namespace TODOProject
                         TaskEventArgs args = new TaskEventArgs();
                         args.TaskName = txtTaskName.Text;
                         SaveHandler(this, args);
-                         BindData();
-                         txtTaskName.Text = string.Empty;
-                          txtTaskName.Focus();
-                        
+                        LoadRepeater();
+                        txtTaskName.Text = string.Empty;
+                        txtTaskName.Focus();
+
                     }
                 }
             }
@@ -109,9 +109,9 @@ namespace TODOProject
                     if (DeleteHandler != null)
                     {
                         TaskEventArgs args = new TaskEventArgs();
-                        args.ID =(hfEditID.Value!=null? Convert.ToInt32(hfEditID.Value):0);
+                        args.ID = (hfEditID.Value != null ? Convert.ToInt32(hfEditID.Value) : 0);
                         DeleteHandler(this, args);
-                         BindData();
+                        LoadRepeater();
                     }
                 }
                 catch (MySqlException exception)
@@ -135,7 +135,7 @@ namespace TODOProject
                     args.ID = (hfEditID.Value != null ? Convert.ToInt32(hfEditID.Value) : 0);
                     args.TaskName = txtTaskName.Text;
                     ChangeTaskNameHandler(this, args);
-                    BindData();
+                    LoadRepeater();
                     txtTaskName.Text = string.Empty;
                     hfEditID.Value = string.Empty;
                     hfSelectedColor.Text = string.Empty;
@@ -159,7 +159,7 @@ namespace TODOProject
             string exp = string.Empty;
             try
             {
-                
+
                 lnkCancelEdit.Style.Add("display", "none");
                 hfEditID.Value = string.Empty;
             }
@@ -171,14 +171,10 @@ namespace TODOProject
             { exp = GenrcModel.Exceptiontype(TaskEventArgs.ExceptionType.Exception, exception); }
             notification("Error", exp);
         }
-        [WebMethod]
-        public static string UpdatePosition(int ItemID, int Position)
-        {
-            ModelsData modelsData = new ModelsData();
-            modelsData.SaveQuery(new TaskEventArgs { ID = ItemID, TaskOrder = Position });
-             return "success";
-        }
-        protected void txtCardColor_TextChanged(object sender, System.EventArgs e)
+        [WebMethod(EnableSession = true)]
+        public static void UpdatePosition(int TaskID, int TaskOrder) => new ModelsData().SaveQuery(new TaskEventArgs { ID = TaskID, TaskOrder = TaskOrder, query = 8 });// ModelsData modelsData = new ModelsData();// modelsData.SaveQuery(new TaskEventArgs { ID = ItemID, TaskOrder = Position,query=8 });
+
+        private void ColorChange(object sender)
         {
             string exp = string.Empty;
             try
@@ -198,11 +194,11 @@ namespace TODOProject
                         }
                         else
                         {
-                           TaskEventArgs args = new TaskEventArgs();
+                            TaskEventArgs args = new TaskEventArgs();
                             args.ID = (hfEditID.Value != null ? Convert.ToInt32(hfEditID.Value) : 0);
                             args.TaskColor = "#" + txtColor.Text;
                             ChangeTaskColorHandler(this, args);
-                            BindData();
+                            LoadRepeater();
                             txtColor.Text = string.Empty;
                             hfEditID.Value = string.Empty;
                         }
@@ -218,6 +214,13 @@ namespace TODOProject
             notification("Error", exp);
         }
 
+        protected void txtCardColor_TextChanged(object sender, System.EventArgs e)
+        {
+            ColorChange(sender);
+        }
+
         #endregion
+
+      
     }
 }
