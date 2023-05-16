@@ -5,6 +5,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using TODOProject.EventArgs;
 using TODOProject.Modal;
+using TODOProject.Modal.Interfaces;
 using TODOProject.Presentation;
 using TODOProject.View;
 
@@ -17,8 +18,14 @@ namespace TODOProject
         public event EventHandler<TaskEventArgs> DeleteHandler;
         public event EventHandler<TaskEventArgs> ChangeTaskNameHandler;
         public event EventHandler<TaskEventArgs> ChangeTaskColorHandler;
+        public event EventHandler<TaskEventArgs> ChangeOrder;
 
         private  TaskPresenter _taskPresenter;
+      private readonly  IdbRepository dbRepository;
+        public _Default(IdbRepository dbRepository)
+        {
+            dbRepository = dbRepository;
+        }
         public void AttachPresenter(TaskPresenter taskPresenter)
         {
             if (taskPresenter == null)
@@ -30,7 +37,7 @@ namespace TODOProject
         
         protected void Page_Load(object sender, System.EventArgs e)
         {
-            TaskPresenter taskPresenter = new TaskPresenter(this);
+            TaskPresenter taskPresenter = new TaskPresenter(this, dbRepository);
             AttachPresenter(taskPresenter);
             if (!IsPostBack)
             { 
@@ -172,11 +179,13 @@ namespace TODOProject
             notification("Error", exp);
         }
         [WebMethod]
-        public static string UpdatePosition(int ItemID, int Position)
+        public  string UpdatePosition(int ItemID, int Position)
         {
-            ModelsData modelsData = new ModelsData();
-            modelsData.SaveQuery(new TaskEventArgs { ID = ItemID, TaskOrder = Position });
-             return "success";
+            if (ChangeOrder != null)
+            {
+                ChangeOrder(this, new TaskEventArgs { ID = ItemID, TaskOrder = Position });
+               // modelsData.SaveQuery(new TaskEventArgs { ID = ItemID, TaskOrder = Position });
+            } return "success";
         }
         protected void txtCardColor_TextChanged(object sender, System.EventArgs e)
         {

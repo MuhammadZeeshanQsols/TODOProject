@@ -1,13 +1,32 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
 using TODOProject.EventArgs;
+using TODOProject.Modal.Interfaces;
 
 namespace TODOProject.Modal
 {
     public class ModelsData
     {
-        public DataTable GetList() => GenrcModel.GetAll();
-        public string SaveQuery(TaskEventArgs taskEventArgs) => GenrcModel.SaveQuery(taskEventArgs);
+        IdbRepository dbRepository;
+        DataAccess dataAccess;
+        public ModelsData(IdbRepository _dbRepository)
+        {
+            dbRepository = _dbRepository;
+            dataAccess=  new DataAccess(dbRepository);
+        }
+
         
+        public  List<TaskEventArgs> GetList()
+        {
+            
+            return dataAccess.ExecuteList();
+        }
+       
+        public string SaveQuery(TaskEventArgs taskEventArgs)
+        {
+            
+            return dataAccess.SaveQuery(taskEventArgs);
+         }
+
 
     }
 }

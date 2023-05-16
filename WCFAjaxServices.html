@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="Scripts/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+    <h3 id="result"></h3>
+    <h3 id="error"></h3>
+    <script>
+
+        $(document).ready(function () {
+           
+            //
+            $.ajax({
+                type: "GET",
+                url: "https://localhost:44314/Task/GetAllTaskLsts",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    alert(JSON.stringify(data));                  
+                    $("#DIV").html('');
+                    var DIV = '';
+                    $.each(data, function (i, item) {
+                        var rows = "<tr>" +
+                            "<td id='RegdNo'>" + item.regNo + "</td>" +
+                            "<td id='Name'>" + item.name + "</td>" +
+                            "<td id='Address'>" + item.address + "</td>" +
+                            "<td id='PhoneNo'>" + item.phoneNo + "</td>" +
+                            "<td id='AdmissionDate'>" + Date(item.admissionDate,
+                                "dd-MM-yyyy") + "</td>" +
+                            "</tr>";
+                        $('#Table').append(rows);
+                    }); //End of foreach Loop   
+                    $("#error").html(data + '' + JSON.stringify(data));
+                }, //End of AJAX Success function  
+
+                failure: function (data) {
+                    alert(data.responseText);
+                }, //End of AJAX failure function  
+                error: function (data) {
+                    alert(data.responseText);
+                } //End of AJAX error function  
+
+            });
+        });
+
+
+    </script>
+</body>
+
+</html>

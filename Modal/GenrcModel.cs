@@ -1,11 +1,9 @@
 ﻿using Microsoft.Practices.EnterpriseLibrary.Data;
 using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
-using MySqlConnector;
+using MySql.Data.MySqlClient;
 using System;
 using System.Configuration;
 using System.Data;
-using System.Data.Common;
-using System.Data.SqlClient;
 using System.Text;
 using ToDoList.Exceptions;
 using TODOProject.EventArgs;
@@ -15,10 +13,10 @@ namespace TODOProject.Modal
 {
     public static class GenrcModel
     {
+       
         public const string LogError = "Error generating notification, check Log for details";
         static Database objDB = new SqlDatabase(ConfigurationManager.ConnectionStrings["connection"].ConnectionString);
-       // static MySqlConnection mySqlConnection = new MySqlConnection(ConfigurationManager.ConnectionStrings["connection"].ConnectionString);
-
+       
         public static DataSet ExecuteDataSet(string query)
         {
             DataSet ds = new DataSet();
@@ -66,9 +64,10 @@ namespace TODOProject.Modal
            
         }
         public static DataTable GetAll() => ExecuteDataTable("SELECT * from Vu_Task");
+       // public static List<TaskEventArgs> GetAll() => ConvertDataTable(ExecuteDataTable("SELECT * from Vu_Task");
         #region CUD Operations
         // inserting and update from one sp 
-
+       
 
         public static string SaveQuery(TaskEventArgs taskEventArgs)
         {
@@ -93,7 +92,7 @@ namespace TODOProject.Modal
         }
 
 
-        public static string Exceptiontype(TaskEventArgs.ExceptionType type, SqlException exception)
+        public static string Exceptiontype(TaskEventArgs.ExceptionType type, MySqlException exception)
         {
            
             if (type== TaskEventArgs.ExceptionType.SqlException)
@@ -103,24 +102,14 @@ namespace TODOProject.Modal
             else if (type == TaskEventArgs.ExceptionType.Exception)
             GenericExceptions.LogException(exception, LogError);
 
-            return notification("Error", LogError);
-            
-        }
-        public static string Exceptiontype(TaskEventArgs.ExceptionType type, MySqlException exception)
-        {
-            if (type == TaskEventArgs.ExceptionType.SqlException)
-                DBExceptions.LogException(exception, null, LogError);
-            if (type == TaskEventArgs.ExceptionType.ArgumentExceptions)
-                ArgumentExceptions.LogException(exception, LogError);
-            else if (type == TaskEventArgs.ExceptionType.Exception)
-                GenericExceptions.LogException(exception, LogError);
+            return notification("Error", LogError) + " - " + exception.Message;
 
-            return notification("Error", LogError);
         }
+      
         public static string Exceptiontype(TaskEventArgs.ExceptionType type, Exception exception)
         {
             ArgumentExceptions.LogException(exception, LogError);
-            return notification("Error", LogError);
+            return notification("Error", LogError) + " - " + exception.Message;
         }
 
 

@@ -7,10 +7,9 @@ using TODOProject.Modal;
 using TODOProject.Modal.Interfaces;
 using TODOProject.Presentation;
 using TODOProject.View;
-
 namespace TODOProject
 {
-    public partial class ToDo : System.Web.UI.Page, ITaskView
+    public partial class Task : System.Web.UI.Page, ITaskView
     {
         public event EventHandler<TaskEventArgs> LoadHandler;
         public event EventHandler<TaskEventArgs> SaveHandler;
@@ -21,7 +20,7 @@ namespace TODOProject
 
         private TaskPresenter _taskPresenter;
         private readonly IdbRepository dbRepository;
-        public ToDo(IdbRepository _dbRepository)
+        public Task(IdbRepository _dbRepository)
         {
             dbRepository = _dbRepository;
         }
@@ -46,8 +45,8 @@ namespace TODOProject
             }
 
         }
-       
-        public  void LoadRepeater()
+
+        public void LoadRepeater()
         {
             string exp = string.Empty;
             try
@@ -234,7 +233,5 @@ namespace TODOProject
         }
 
         #endregion
-
-      
     }
 }

@@ -1,4 +1,5 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true"  CodeBehind="ToDo.aspx.cs" Inherits="TODOProject.ToDo" %>
+﻿<%@ Page Language="C#" Debug="true" AutoEventWireup="true" CodeBehind="Task.aspx.cs" Inherits="TODOProject.Task" %>
+
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <!DOCTYPE html>
 

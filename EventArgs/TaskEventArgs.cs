@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 namespace TODOProject.EventArgs
 {
     public class TaskEventArgs : System.EventArgs
@@ -10,7 +11,8 @@ namespace TODOProject.EventArgs
         public bool Ispending { get; set; }
         public string TaskColor { get; set; }
         public int query { get; set; }
-        public DataTable TodoList { get; set; }
+       // public DataTable TodoList { get; set; }
+        public List<TaskEventArgs> TodoList { get; set; }
         public  enum ExceptionType
         {
             SqlException = 1,
